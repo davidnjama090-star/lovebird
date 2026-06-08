@@ -6,10 +6,36 @@ export default function App() {
   const [name, setName] = useState("Essy");
   const [typed, setTyped] = useState("");
   const [playing, setPlaying] = useState(false);
+  const [showPoem, setShowPoem] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
 
   const message =
-    "Dear Essy ❤️\n\nYou are the most special person in my life. Every moment with you feels like magic. Thank you for being in my life. I hope this little surprise makes you smile 💖";
+`Dear ${name} ❤️
+
+Before anything else, I want to say something from my heart.
+
+I know there were moments when I hurt you, disappointed you, or failed to love you the way you deserved. I truly regret those moments, and I am genuinely sorry for every pain I caused you.
+
+Please don’t let one mistake erase all the beautiful memories, laughter, and love we shared. What we have means so much to me.
+
+You mean more to me than words can explain. Your smile, your heart, your presence — all of it brings light into my life.
+
+I may not be perfect, but my feelings for you are real, and I want to become better for us.
+
+Thank you for still being in my life ❤️`;
+
+  const poem =
+`Have you ever had something so sweet that you close your eyes just to take it in? That’s what loving you feels like.
+
+If love had a flavour, it would be you — sweet like honey, warm like today’s breath, something I never get tired of.
+
+Your voice is like rain on a hot day, calming everything it touches.
+
+Your touch feels like the sweetest morning after a long night of waiting.
+
+I didn’t know love could feel this natural, this effortless, this real.
+
+But then you came along… and now it feels like I’ve known it all my life ❤️`;
 
   useEffect(() => {
     if (stage === "letter") {
@@ -20,7 +46,7 @@ export default function App() {
         setTyped(message.slice(0, i));
         i++;
         if (i > message.length) clearInterval(interval);
-      }, 40);
+      }, 20);
 
       return () => clearInterval(interval);
     }
@@ -40,24 +66,8 @@ export default function App() {
 
   return (
     <div style={styles.container}>
-      {/* Stars */}
-      {Array.from({ length: 40 }).map((_, i) => (
-        <span
-          key={i}
-          style={{
-            position: "absolute",
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            color: "white",
-            fontSize: "12px",
-            opacity: Math.random(),
-          }}
-        >
-          ✦
-        </span>
-      ))}
 
-      {/* Welcome */}
+      {/* WELCOME */}
       {stage === "welcome" && (
         <div style={styles.card}>
           <h1>💖 Welcome</h1>
@@ -74,7 +84,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Letter */}
+      {/* LETTER */}
       {stage === "letter" && (
         <div style={styles.card}>
           <h2>💌 For {name}</h2>
@@ -86,7 +96,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Proposal */}
+      {/* PROPOSAL */}
       {stage === "proposal" && (
         <div style={styles.card}>
           <h1>💍 {name}...</h1>
@@ -115,7 +125,7 @@ export default function App() {
         </div>
       )}
 
-      {/* Final */}
+      {/* FINAL */}
       {stage === "final" && (
         <div style={styles.card}>
           <h1>💖 She Said YES 💖</h1>
@@ -129,6 +139,22 @@ export default function App() {
             {playing ? "⏸ Pause Music" : "🎵 Play Music"}
           </button>
 
+          {/* POEM BUTTON */}
+          <button
+            style={styles.button}
+            onClick={() => setShowPoem(!showPoem)}
+          >
+            💌 Read Poem
+          </button>
+
+          {/* POEM */}
+          {showPoem && (
+            <pre style={{ ...styles.text, marginTop: "15px" }}>
+              {poem}
+            </pre>
+          )}
+
+          {/* GALLERY BUTTON */}
           <button
             style={styles.button}
             onClick={() => setShowGallery(!showGallery)}
@@ -136,15 +162,17 @@ export default function App() {
             🖼️ Memories
           </button>
 
+          {/* GALLERY */}
           {showGallery && (
             <div style={styles.gallery}>
-              <img src="/photo1.jpg" alt="" style={styles.img} />
-              <img src="/photo2.jpg" alt="" style={styles.img} />
-              <img src="/photo3.jpg" alt="" style={styles.img} />
+              <img src="/photo1.jpg" style={styles.img} />
+              <img src="/photo2.jpg" style={styles.img} />
+              <img src="/photo3.jpg" style={styles.img} />
             </div>
           )}
         </div>
       )}
+
     </div>
   );
 }
@@ -158,8 +186,6 @@ const styles = {
     background: "linear-gradient(to right, #141e30, #243b55)",
     fontFamily: "Arial",
     padding: "20px",
-    position: "relative",
-    overflow: "hidden",
   },
 
   card: {
@@ -170,7 +196,6 @@ const styles = {
     maxWidth: "420px",
     textAlign: "center",
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-    zIndex: 10,
   },
 
   input: {
@@ -214,8 +239,9 @@ const styles = {
 
   text: {
     whiteSpace: "pre-wrap",
-    fontSize: "15px",
+    fontSize: "14px",
     lineHeight: "1.6",
+    textAlign: "left",
   },
 
   gallery: {
